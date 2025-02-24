@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Rent a Sketch{% endblock %}
+{% block body %}
+
+<div class="container">
+    <h2 class="mt-3">Rent a Sketch</h2>
+    {% if sketches %}
+    <form method="POST" class="mt-3">
+        <div class="mb-3">
+            <label for="sketch_id" class="form-label">Select Sketch</label>
+            <select name="sketch_id" id="sketch_id" class="form-select" required>
+                {% for sketch in sketches %}
+                <option value="{{ sketch.id }}">{{ sketch.name }} (Owner: {{ sketch.owner.name }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="renter_name" class="form-label">Renter Name</label>
+            <input type="text" name="renter_name" id="renter_name" class="form-control" required placeholder="">
+        </div>
+        <button type="submit" class="btn btn-success">Rent Sketch</button>
+    </form>
+    <h4 class="mt-4">Rental History</h4>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Sketch Name</th>
+                <th>Owner</th>
+                <th>Renter</th>
+                <th>Rental Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sketch in sketches %}
+                {% for rental in sketch.rentals %}
+                <tr>
+                    <td>{{ sketch.name }}</td>
+                    <td>{{ sketch.owner.name }}</td>
+                    <td>{{ rental.renter_name }}</td>
+                    <td>{{ rental.rental_date.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+            {% if not sketches or not sketches[0].rentals %}
+            <tr>
+                <td colspan="4" class="text-center">No rentals yet.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    <p class="mt-3"><a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Add Sketch & Owner</a></p>
+    {% else %}
+    <p class="mt-3">No sketches available. Please add a sketch and owner first.</p>
+    <p><a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Add Sketch & Owner</a></p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Add Sketch & Owner{% endblock %}
+{% block body %}
+
+<div class="container">
+    <h2 class="mt-3">Add a Sketch and Owner</h2>
+    <p>Please input the sketch and its owner to begin.</p>
+    <form method="POST" class="mt-3">
+        <div class="mb-3">
+            <label for="owner_name" class="form-label">Owner Name</label>
+            <input type="text" name="owner_name" id="owner_name" class="form-control" required placeholder="">
+        </div>
+        <div class="mb-3">
+            <label for="sketch_name" class="form-label">Sketch Name</label>
+            <input type="text" name="sketch_name" id="sketch_name" class="form-control" required placeholder="">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Sketch & Owner</button>
+    </form>
+    <p class="mt-3">Ready to rent? <a href="{{ url_for('rent_sketch') }}" class="btn btn-info btn-sm">Go to Rent Sketch</a></p>
+</div>
+{% endblock %}
